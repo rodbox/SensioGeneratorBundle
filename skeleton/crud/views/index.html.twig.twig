@@ -1,0 +1,78 @@
+{% block extends %}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
+{% endblock extends %}
+
+    {{ "{% set crudEntity = 'RBAdminBundle:'~entity~' %}" }}
+
+{% block body %}
+{{ "{% block body %}" }}
+    <h1>{{ entity }} list</h1>
+<div class="col-md-12 col-lg-12 ">
+    <div class="panel panel-default">
+            <div class="panel-body">
+                <form action="#" id="{{ entity }}-list" class="batch-form">
+                    <table class="records_list table  table-striped table-condensed table-bordered table-sm">
+                        <thead class="thead-inverse">
+                            <tr>
+                            <th>
+
+                            </th>
+                            {%- for field, metadata in fields %}
+                                <th>{{ field|capitalize }}</th>
+                            {%- endfor %}
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
+                            <tr>
+                                <td class="text-center td-check w-5">{{ '{{check_me(entity.id, crudEntity)}}' }}</td>
+                        {%- for field, metadata in fields %}
+                            {%- if loop.first and ('show' in actions) %}
+
+                                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                            {%- elseif metadata.type in ['datetime'] %}
+
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                            {%- elseif metadata.type in ['date'] %}
+
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
+
+                            {%- elseif metadata.type in ['time'] %}
+
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
+
+                            {%- elseif metadata.type in ['array'] %}
+
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+
+                            {%- elseif metadata.type in ['boolean'] %}
+
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+
+                            {%- else %}
+
+                                <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                            {%- endif %}
+
+                            {%- if loop.last %}
+                                    <td class="text-right td-actions w-5">
+                                        {{ '{{action_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}
+                                    </td>
+                            {%- endif %}
+                        {%- endfor %}
+
+                            </tr>
+                        {{ '{% endfor %}' }}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{{ "{% endblock %}" }}
+{% endblock body %}

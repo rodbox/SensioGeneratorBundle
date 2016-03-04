@@ -1,0 +1,69 @@
+{% block extends %}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{% block body -%}" }}
+
+    {{ "{% set crudEntity = 'RBAdminBundle:Category' %}" }}
+
+    <form action="#" id="{{ entity }}-list" class="batch-form">
+    <table class="records_list table  table-striped table-condensed table-bordered table-sm">
+
+        <thead  class="thead-inverse">
+            <tr>
+                <th class="td-check">
+                    <div class="btn-group">
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="#" class="btn btn-sm default">
+                        <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu pull-left">
+                            {% if 'new' in actions %}<a href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}" class="dropdown-item">Create</a>{% endif %}
+                            <a href="#" data-batch="#{{ entity }}-list" class="dropdown-item toggle-batch-all">{{"action.select_all" }}</a>
+                        </div>
+                    </div>
+                </th>
+            {%- for field, metadata in fields %}
+
+                <th>{{ field|capitalize }}</th>
+
+            {%- endfor %}
+
+                <th class="text-right td-actions"></th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {{ '{% for entity in entities %}' }}
+            <tr>
+            <td class="text-center td-check w-5">{{ '{{check_me(entity.id, crudEntity)}}' }}</td>
+        {%- for field, metadata in fields %}
+            {%- if loop.first and ('show' in actions) %}
+
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity."~ identifier ~" }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+            {%- elseif metadata.type in ['date', 'datetime'] %}
+
+                <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+            {%- else %}
+
+                <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+            {%- endif %}
+
+            {%- if loop.last %}
+
+                <td class="text-right td-actions w-5">
+                    {{ '{{action_me(entity.id, crudEntity)}}' }}
+                </td>
+
+            {%- endif %}
+        {%- endfor %}
+
+            </tr>
+        {{ '{% endfor %}' }}
+        </tbody>
+    </table>
+    </form>
+{{ "{% endblock %}" }}
+

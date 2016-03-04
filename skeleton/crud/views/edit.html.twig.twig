@@ -1,0 +1,22 @@
+{% block extends %}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block body %}" }}
+    {{ '{% set crudEntity = "RBFrontBundle:'~ route_name_prefix '" %}' }}
+    {{ '{{ menu_edit("'~ route_name_prefix '", delete_form) }}' }}
+{{ "{# Panel  #}" }}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {{ '{{ form_start(edit_form,{action:path(""),attr:{class:"form-live"}}) }}' }}
+        {{ '{{ form_widget(edit_form) }}' }}
+    {{ '{{ form_end(edit_form) }}' }}
+    </div>
+</div>
+{{ "{# End Panel :   #}" }}
+
+{% set hide_edit, hide_delete = true, false %}
+{{ include('crud/views/others/record_actions.html.twig.twig') -}}
+{{ "{% endblock %}" }}
+{% endblock body %}
