@@ -6,7 +6,6 @@
 
 {% block body %}
 {{ "{% block body %}" }}
-    <h1>{{ entity }} list</h1>
 <div class="col-md-12 col-lg-12 ">
     <div class="panel panel-default">
             <div class="panel-body">
@@ -18,9 +17,9 @@
 
                             </th>
                             {%- for field, metadata in fields %}
-                                <th>{{ field|capitalize }}</th>
+                                <th>{{ '{{ "label.' ~ field ~ '"|trans}}' }}</th>
                             {%- endfor %}
-                                <th>Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
