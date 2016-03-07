@@ -1,11 +1,11 @@
 {% block extends %}
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
-
+    {{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
 {% block body %}
 {{ "{% block body %}" }}
 {{ "{# Panel  #}" }}
-<div class="panel panel-default">
+<div class="panel panel-default panel-new">
     <div class="panel-body">
     {{ '{{ form_start(form) }}' }}
         {{ '{{ form_widget(form) }}' }}

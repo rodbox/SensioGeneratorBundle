@@ -16,8 +16,20 @@
     {
 {% block method_body %}
         $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+        $per     = $session->get("per",15);
+        $query   = $em->createQuery(
+                'SELECT p
+                FROM {{ bundle }}:{{ entity }} p
+                '
+                );
+                $paginator = $this->get('knp_paginator');
+                ${{ entity_pluralized }}  = $paginator->paginate(
+                    $query,
+                    $request->query->getInt('page', 1)  /*page number*/,
+                    $per                                /*limit per page*/
+                );
 
-        ${{ entity_pluralized }} = $em->getRepository('{{ bundle }}:{{ entity }}')->findAll();
 {% endblock method_body %}
 
 {% block method_return %}

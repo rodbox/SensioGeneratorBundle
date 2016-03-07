@@ -2,30 +2,28 @@
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
 
-    {{ "{% set crudEntity = 'RBAdminBundle:'~entity~' %}" }}
+    {{ '{% set crudEntity = '~ bundle ~':'~ entity_singularized ~' %}' }}
 
 {% block body %}
 {{ "{% block body %}" }}
 <div class="col-md-12 col-lg-12 ">
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-index">
             <div class="panel-body">
-                <form action="#" id="{{ entity }}-list" class="batch-form">
+                <form action="#" id="{{ entity_singularized }}-list" class="batch-form">
                     <table class="records_list table  table-striped table-condensed table-bordered table-sm">
                         <thead class="thead-inverse">
                             <tr>
-                            <th>
-
-                            </th>
-                            {%- for field, metadata in fields %}
-                                <th>{{ '{{ "label.' ~ field ~ '"|trans}}' }}</th>
-                            {%- endfor %}
+                                <th></th>
+                                {%- for field, metadata in fields %}
+                                <th class="{{ '{% if ' ~ entity_pluralized ~ '.isSorted("p.' ~ field ~'") %} sorted{% endif %}">{{ knp_pagination_sortable('~ entity_pluralized ~', "label.' ~ field ~'" | trans, "p.' ~ field ~'") }}' }}
+                                </th>{%- endfor %}
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
                             <tr>
-                                <td class="text-center td-check w-5">{{ '{{check_me(entity.id, crudEntity)}}' }}</td>
+                                <td class="text-center td-check">{{ '{{check_me(entity_singularized.id, crudEntity)}}' }}</td>
                         {%- for field, metadata in fields %}
                             {%- if loop.first and ('show' in actions) %}
 
@@ -67,6 +65,13 @@
                             </tr>
                         {{ '{% endfor %}' }}
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="{{ (fields|length) + 2 }}" class="navigation text-right">
+                                    {{ "{{ knp_pagination_render("~entity_pluralized~") }}" }}
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </form>
             </div>

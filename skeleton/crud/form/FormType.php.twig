@@ -37,7 +37,9 @@ class {{ form_class }} extends AbstractType
 
             {%- endif -%}
         {%- endfor %}
-             ->add('submit', SubmitType::class, [
+
+    {% endif %}
+         ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success btn-submit-crud',
                     'type'  => 'submit'
@@ -45,8 +47,6 @@ class {{ form_class }} extends AbstractType
             ])
         ;
     }
-    {% endif %}
-
     {%- if not configure_options_available %}
 
     /**

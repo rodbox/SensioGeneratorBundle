@@ -1,15 +1,15 @@
 {% block extends %}
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
-
+    {{ '{% set crudEntity = '~ bundle ~':'~ entity_singularized ~' %}' }}
 {% block body %}
 {{ "{% block body %}" }}
-    {{ '{% set crudEntity = "RBFrontBundle:'~ route_name_prefix '" %}' }}
-    {{ '{{ menu_edit("'~ route_name_prefix '", delete_form) }}' }}
+
+    {{ '{{ menu_edit("'~ route_name_prefix ~'", delete_form) }}' }}
 {{ "{# Panel  #}" }}
 <div class="panel panel-default">
     <div class="panel-body">
-        {{ '{{ form_start(edit_form,{action:path(""),attr:{class:"form-live"}}) }}' }}
+        {{ '{{ form_start(edit_form,{action:path("'~route_name_prefix~'_edit",{id:'~ entity_singularized ~'.id}),attr:{class:"form-live"}}) }}' }}
         {{ '{{ form_widget(edit_form) }}' }}
     {{ '{{ form_end(edit_form) }}' }}
     </div>
