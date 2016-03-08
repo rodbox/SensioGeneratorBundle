@@ -1,22 +1,28 @@
 {% block extends %}
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
-    {{ '{% set crudEntity = '~ bundle ~':'~ entity_singularized ~' %}' }}
+    {{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
 {% block body %}
 {{ "{% block body %}" }}
 
-    {{ '{{ menu_edit("'~ route_name_prefix ~'", delete_form) }}' }}
+{{ '{{ menu_edit("'~ route_name_prefix ~'", delete_form) }}' }}
 {{ "{# Panel  #}" }}
 <div class="panel panel-default">
     <div class="panel-body">
         {{ '{{ form_start(edit_form,{action:path("'~route_name_prefix~'_edit",{id:'~ entity_singularized ~'.id}),attr:{class:"form-live"}}) }}' }}
-        {{ '{{ form_widget(edit_form) }}' }}
-    {{ '{{ form_end(edit_form) }}' }}
+
+        {%- for field, metadata in fields %}
+            {% if field != "id" %}
+                {{ '{{ form_row(edit_form.' ~ field ~ ',{attr:{class:"form-control"}}) }}' }}
+            {% endif %}
+        {%- endfor %}
+        <hr>
+        {# '{{ form_row(edit_form.submit,{attr:{class:"btn btn-success btn-crud-submit"}}) }}' #}
+
+        {{ '{{ form_end(edit_form) }}' }}
     </div>
 </div>
 {{ "{# End Panel :   #}" }}
 
-{% set hide_edit, hide_delete = true, false %}
-{{ include('crud/views/others/record_actions.html.twig.twig') -}}
 {{ "{% endblock %}" }}
 {% endblock body %}
