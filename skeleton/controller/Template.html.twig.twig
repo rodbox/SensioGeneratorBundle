@@ -1,9 +1,8 @@
-{{ '{% extends "::base.html.twig" %}' }}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBFrontBundle::index.html.twig' %} "}}
 
-{{ '{% block title %}' -}}
-{{ bundle }}:{{ controller }}:{{ action.basename }}
-{{- '{% endblock %}' }}
+{{ "{% block title %}<h1>Welcome to the "~ controller ~ " : "~ action.basename ~ " page</h1>{% endblock %} "}}
+{{ "{% block bodyClass %}{% endblock %} "}}
 
-{{ '{% block body %}' }}
+{{ "{% block body -%} "}}
 <h1>Welcome to the {{ controller }}:{{ action.basename }} page</h1>
-{{ '{% endblock %}' }}
+{{ "{% endblock %} "}}
