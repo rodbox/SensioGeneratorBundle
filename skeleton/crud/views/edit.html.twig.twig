@@ -1,12 +1,7 @@
 {% block extends %}
-{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
     {{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
-
-{{ "{% block subtitle %}" }}
-    {{ "{{ "~ entity_singularized ~" }}" }}
-{{ "{% endblock %}" }}
-
 {% block body %}
 {{ "{% block body %}" }}
 

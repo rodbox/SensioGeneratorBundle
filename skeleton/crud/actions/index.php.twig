@@ -17,8 +17,12 @@
 {% block method_body %}
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
-        $per     = $session->get("per",15);
-        $query   = $em->createQuery(
+
+        $ui           = $session->get('ui');
+        $view         = (isset($ui['V'])) ?$ui['V']:'index-A';
+        $per          = (isset($ui['per'])) ?$ui['per']:25;
+
+        `$query   = $em->createQuery(
                 'SELECT p
                 FROM {{ bundle }}:{{ entity }} p
                 '
@@ -33,7 +37,7 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ bundle }}:{{ entity_singularized }}:index.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity_singularized }}:'.$view.'.html.twig', array(
             '{{ entity_pluralized }}' => ${{ entity_pluralized }},
         ));
 {% endblock method_return %}

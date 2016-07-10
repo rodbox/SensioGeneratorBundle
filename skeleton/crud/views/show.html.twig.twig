@@ -1,14 +1,10 @@
 {% block extends %}
-{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'RBAdminBundle::index.html.twig' %}" }}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
     {{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
 {% block body %}
 {{ "{% block body %}" }}
 
-{{'{# Panel  #}'}}
-<div class="panel panel-default">
-    <div class="panel-header">{{ entity }}</div>
-    <div class="panel-body">
         <table>
             <tbody>
             {%- for field, metadata in fields %}
@@ -48,9 +44,6 @@
 
             </tbody>
         </table>
-    </div>
-</div>
-{{'{# End Panel :   #}'}}
 {% set hide_edit, hide_delete = false, false %}
 {{ include('crud/views/others/record_actions.html.twig.twig') -}}
 {{ "{% endblock %}" }}

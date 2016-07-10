@@ -1,0 +1,30 @@
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/batch", name="{{ route_name_prefix }}_batch")
+     * @Method("GET")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function batchAction(Request $request)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+    // batch loop
+
+{% endblock method_body %}
+
+{% block method_return %}
+        $r = [
+             'infotype'=>'success',
+            'msg'=>'ok'
+        ];
+
+        return new JsonResponse($r);
+{% endblock method_return %}
+    }
