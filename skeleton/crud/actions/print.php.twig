@@ -15,8 +15,16 @@
 {% endblock method_definition %}{
 
 {% block method_return %}
-        return $this->render('{{ bundle }}:{{ entity_singularized }}:print.html.twig', array(
-            '{{ entity_singularized }}' => ${{ entity_singularized }},
-        ));
+        $r = [
+            'infotype' => 'success',
+            'msg'      => 'ok',
+            'modal'    => [
+                'content'=>'print {{ entity_singularized }}',
+                'title'=>'{{ entity_singularized }}',
+                'modal'=>'modalLg'
+            ]
+        ];
+
+        return new JsonResponse($r);
 {% endblock method_return %}
     }

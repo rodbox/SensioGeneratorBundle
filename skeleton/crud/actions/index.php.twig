@@ -22,7 +22,7 @@
         $view         = (isset($ui['V'])) ?$ui['V']:'index-A';
         $per          = (isset($ui['per'])) ?$ui['per']:25;
 
-        `$query   = $em->createQuery(
+        $query   = $em->createQuery(
                 'SELECT p
                 FROM {{ bundle }}:{{ entity }} p
                 '

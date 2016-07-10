@@ -1,7 +1,7 @@
 
     /**
 {% block phpdoc_method_header %}
-     * Finds and displays a {{ entity }} entity.
+     * Import {{ entity }} entity.
 {% endblock phpdoc_method_header %}
      *
 {% block phpdoc_method_annotations %}
@@ -12,12 +12,32 @@
      */
 {% block method_definition %}
     public function importAction({{ entity_class }} ${{ entity_singularized }})
-{% endblock method_definition %}{
+{% endblock method_definition %}
+{
+    {% block method_body %}
+        $dir_import = $this->container->getParameter('dir_import');
+        $list = $this->get('rb.file')->file($dir_import.'/impex_'.{{ entity_class }}.'.csv');
 
+        $em = $this->getDoctrine()->getManager();
+
+        $i = 0;
+        $y = 0;
+        $total = count($list);
+        foreach ($list as $key => $d) {
+            if($d[0] !='' && $i > 1){
+
+                ${{ entity_singularized }} = new {{ entity_singularized }}();
+                $em->persist(${{ entity_singularized }});
+            }
+            $i++;
+        }
+        $em->flush();
+
+    {% endblock method_body %}
 {% block method_return %}
         $r = [
-            'infotype'=>'import success',
-            'msg'=>'ok'
+            'infotype'  => 'success',
+            'msg'       => 'import ok'
         ];
 
         return new JsonResponse($r);

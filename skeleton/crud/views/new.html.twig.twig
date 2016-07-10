@@ -3,24 +3,17 @@
 {% endblock extends %}
     {{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
 {% block body %}
-{{ "{% block body %}" }}
-{{ '{{ menu_new("'~ route_name_prefix ~'") }}' }}
-{{ "{# Panel  #}" }}
-<div class="panel panel-default panel-new">
-    <div class="panel-body">
     {{ '{{ form_start(form,{action:path("'~route_name_prefix~'_new"),attr:{class:"form-live"}}) }}' }}
       {%- for field, metadata in fields %}
             {% if field != "id" %}
                 {{ '{{ form_row(form.' ~ field ~ ',{attr:{class:"form-control"}}) }}' }}
             {% endif %}
         {%- endfor %}
-        <hr>
-        {# '{{ form_row(form.submit,{attr:{class:"btn btn-success btn-crud-submit"}}) }}' #}
-        <button type="submit" class="btn btn-success btn-crud-submit">save</button>
+        <div class="form-footer">
+            <button type="submit" class="btn btn-success btn-crud-submit">{{"action.save"|trans}}</button>
+       </div>
     {{ '{{ form_end(form) }}' }}
-    </div>
-</div>
-{{ "{# end Panel  #}" }}
+
 
 {{ "{% endblock %}" }}
 {% endblock body %}

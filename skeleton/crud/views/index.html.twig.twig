@@ -6,83 +6,77 @@
 
 {% block body %}
 {{ "{% block body %}" }}
-<div class="col-md-12 col-lg-12 ">
-    <div class="panel panel-default panel-index">
-            <div class="panel-body">
-                <form action="#" id="{{ entity_singularized }}-list" class="batch-form">
-                    <table class="records_list table  table-striped table-condensed table-bordered table-sm">
-                        <thead class="thead-inverse">
-                            <tr>
-                                <th class="td-check">
-                                    {{ "{{ crud_menu(crudEntity) }}" }}
-                                </th>
-                                {%- for field, metadata in fields %}
-                                <th class="{{ '{% if ' ~ entity_pluralized ~ '.isSorted("p.' ~ field ~'") %} sorted{% endif %}">{{ knp_pagination_sortable('~ entity_pluralized ~', "label.' ~ field ~'" | trans, "p.' ~ field ~'") }}' }}
-                                </th>{%- endfor %}
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
-                            <tr>
-                                <td class="text-center td-check">{{ '{{check_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}</td>
-                            {%- for field, metadata in fields %}
-                                {%- if loop.first and ('show' in actions) %}
+<form action="#" id="{{ entity_singularized }}-list" class="batch-form">
+    <table class="records_list table  table-striped table-condensed table-bordered table-sm">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="td-check">
+                    {{ "{{ crud_menu(crudEntity) }}" }}
+                </th>
+                {%- for field, metadata in fields %}
+                <th class="{{ '{% if ' ~ entity_pluralized ~ '.isSorted("p.' ~ field ~'") %} sorted{% endif %}">{{ knp_pagination_sortable('~ entity_pluralized ~', "label.' ~ field ~'" | trans, "p.' ~ field ~'") }}' }}
+                </th>{%- endfor %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
+            <tr>
+                <td class="text-center td-check">{{ '{{check_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}</td>
+            {%- for field, metadata in fields %}
+                {%- if loop.first and ('show' in actions) %}
 
-                                    <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+                    <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
 
-                                {%- elseif metadata.type in ['datetime'] %}
+                {%- elseif metadata.type in ['datetime'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
 
-                                {%- elseif metadata.type in ['date'] %}
+                {%- elseif metadata.type in ['date'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
 
-                                {%- elseif metadata.type in ['time'] %}
+                {%- elseif metadata.type in ['time'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
 
-                                {%- elseif metadata.type in ['array'] %}
+                {%- elseif metadata.type in ['array'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
 
-                                {%- elseif metadata.type in ['json_array'] %}
+                {%- elseif metadata.type in ['json_array'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
 
-                                {%- elseif metadata.type in ['boolean'] %}
+                {%- elseif metadata.type in ['boolean'] %}
 
-                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
 
-                                {%- else %}
+                {%- else %}
 
-                                    <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+                    <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
 
-                                {%- endif %}
+                {%- endif %}
 
-                                {%- if loop.last %}
-                                        <td class="text-right td-actions">
-                                            {{ '{{action_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}
-                                        </td>
-                                {%- endif %}
-                            {%- endfor %}
+                {%- if loop.last %}
+                        <td class="text-right td-actions">
+                            {{ '{{action_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}
+                        </td>
+                {%- endif %}
+            {%- endfor %}
 
-                            </tr>
-                        {{ '{% endfor %}' }}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="{{ (fields|length) + 2 }}" class="navigation text-right">
-                                    {{ "{{ knp_pagination_render("~entity_pluralized~") }}" }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </form>
-            </div>
-        </div>
-    </div>
+            </tr>
+        {{ '{% endfor %}' }}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="{{ (fields|length) + 2 }}" class="navigation text-right">
+                    {{ "{{ knp_pagination_render("~entity_pluralized~") }}" }}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
 
 {{ "{% endblock %}" }}
 {% endblock body %}

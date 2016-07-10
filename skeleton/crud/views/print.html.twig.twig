@@ -1,0 +1,9 @@
+{% block extends %}
+{{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
+{% endblock extends %}
+    {{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
+{% block body %}
+{{ "{% block body %}" }}
+print {{route_name_prefix}}
+{{ "{% endblock %}" }}
+{% endblock body %}

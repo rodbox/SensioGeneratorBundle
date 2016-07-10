@@ -1,7 +1,7 @@
 
     /**
 {% block phpdoc_method_header %}
-     * Finds and displays a {{ entity }} entity.
+     * Export {{ entity }} entity.
 {% endblock phpdoc_method_header %}
      *
 {% block phpdoc_method_annotations %}
@@ -11,13 +11,19 @@
 {% endblock phpdoc_method_annotations %}
      */
 {% block method_definition %}
-    public function exportAction({{ entity_class }} ${{ entity_singularized }})
+    public function exportAction({{ entity }} ${{ entity_singularized }})
 {% endblock method_definition %}{
+{% block method_body %}
+        $em      = $this->getDoctrine()->getManager();
+        ${{ entity_pluralized }} = $em
+          ->getRepository('{{ entity }}:{{ entity }}')->findAl();
 
+
+{% endblock method_body %}
 {% block method_return %}
     $r = [
-        'infotype'=>'export success',
-        'msg'=>'ok'
+        'infotype'=>'success',
+        'msg'=>'export ok'
     ];
 
     return new JsonResponse($r);
