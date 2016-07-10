@@ -1,24 +1,23 @@
 {% block extends %}
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
-    {{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
+{{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
 {% block body %}
+
 {{ "{% block body %}" }}
-
 {{ '{{ menu_edit("'~ route_name_prefix ~'", delete_form) }}' }}
+{{ '{{ form_start(edit_form,{action:path("'~route_name_prefix~'_edit",{id:'~ entity_singularized ~'.id}),attr:{class:"form-live"}}) }}' }}
 
-        {{ '{{ form_start(edit_form,{action:path("'~route_name_prefix~'_edit",{id:'~ entity_singularized ~'.id}),attr:{class:"form-live"}}) }}' }}
 
-        {%- for field, metadata in fields %}
-            {% if field != "id" %}
-                {{ '{{ form_row(edit_form.' ~ field ~ ',{attr:{class:"form-control"}}) }}' }}
-            {% endif %}
-        {%- endfor %}
 
-       <div class="form-footer">
-            <button type="submit" class="btn btn-success btn-crud-submit">{{"action.save"|trans}}</button>
-       </div>
+{%- for field, metadata in fields %}
 
-        {{ '{{ form_end(edit_form) }}' }}
+{% if field != "id" %}  {{ '{{ form_row(edit_form.' ~ field ~ ',{attr:{class:"form-control"}}) }}' }}
+{% endif %}
+{%- endfor %}
+<div class="form-footer">
+        <button type="submit" class="btn btn-success btn-crud-submit">{{'{{"action.save"|trans}}'}}</button>
+</div>
+{{ '{{ form_end(edit_form) }}' }}
 {{ "{% endblock %}" }}
 {% endblock body %}

@@ -13,16 +13,17 @@
 {% block method_definition %}
     public function importAction({{ entity_class }} ${{ entity_singularized }})
 {% endblock method_definition %}
-{
+    {
     {% block method_body %}
-        $dir_import = $this->container->getParameter('dir_import');
-        $list = $this->get('rb.file')->file($dir_import.'/impex_'.{{ entity_class }}.'.csv');
+    $dir_import = $this->container->getParameter('dir_import');
+        $list       = $this->get('rb.file')->file($dir_import.'/impex___{{ bundle }}__{{ entity_singularized }}.csv');
 
-        $em = $this->getDoctrine()->getManager();
+        $em         = $this->getDoctrine()->getManager();
 
-        $i = 0;
-        $y = 0;
-        $total = count($list);
+        $i          = 0;
+        $y          = 0;
+        $total      = count($list);
+
         foreach ($list as $key => $d) {
             if($d[0] !='' && $i > 1){
 
@@ -35,7 +36,7 @@
 
     {% endblock method_body %}
 {% block method_return %}
-        $r = [
+    $r = [
             'infotype'  => 'success',
             'msg'       => 'import ok'
         ];

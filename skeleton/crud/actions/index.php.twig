@@ -15,30 +15,26 @@
 {% endblock method_definition %}
     {
 {% block method_body %}
-        $em = $this->getDoctrine()->getManager();
+        $em      = $this->getDoctrine()->getManager();
         $session = $request->getSession();
 
-        $ui           = $session->get('ui');
-        $view         = (isset($ui['V'])) ?$ui['V']:'index-A';
-        $per          = (isset($ui['per'])) ?$ui['per']:25;
+        $ui      = $session->get('ui');
+        $view    = (isset($ui['V'])) ?$ui['V']:'index-A';
+        $per     = (isset($ui['per'])) ?$ui['per']:25;
 
-        $query   = $em->createQuery(
-                'SELECT p
-                FROM {{ bundle }}:{{ entity }} p
-                '
-                );
-                $paginator = $this->get('knp_paginator');
-                ${{ entity_pluralized }}  = $paginator->paginate(
-                    $query,
-                    $request->query->getInt('page', 1)  /*page number*/,
-                    $per                                /*limit per page*/
-                );
+        $query   = $em->createQuery('SELECT p FROM {{ bundle }}:{{ entity }} p');
+        $paginator = $this->get('knp_paginator');
+        ${{ entity_pluralized }}  = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1)
+            $per
+        );
 
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ bundle }}:{{ entity_singularized }}:'.$view.'.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity_singularized }}:'.$view.'.html.twig', [
             '{{ entity_pluralized }}' => ${{ entity_pluralized }},
-        ));
+        ]);
 {% endblock method_return %}
     }

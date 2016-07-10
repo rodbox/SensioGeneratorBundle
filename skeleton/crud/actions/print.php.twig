@@ -12,16 +12,17 @@
      */
 {% block method_definition %}
     public function printAction({{ entity_class }} ${{ entity_singularized }})
-{% endblock method_definition %}{
+{% endblock method_definition %}
+    {
 
 {% block method_return %}
         $r = [
             'infotype' => 'success',
             'msg'      => 'ok',
             'modal'    => [
-                'content'=>'print {{ entity_singularized }}',
-                'title'=>'{{ entity_singularized }}',
-                'modal'=>'modalLg'
+                'content' => 'print {{ entity_singularized }}',
+                'title'   => '{{ entity_singularized }}',
+                'modal'   => 'modalLg'
             ]
         ];
 

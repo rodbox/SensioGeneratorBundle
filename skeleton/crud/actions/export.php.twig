@@ -12,20 +12,25 @@
      */
 {% block method_definition %}
     public function exportAction({{ entity }} ${{ entity_singularized }})
-{% endblock method_definition %}{
+{% endblock method_definition %}
+    {
 {% block method_body %}
-        $em      = $this->getDoctrine()->getManager();
+        $dir_import = $this->container->getParameter('dir_import');
+        $file       = $dir_import.'/impex__{{ bundle }}__{{ entity_singularized }}.csv';
+
+        $em         = $this->getDoctrine()->getManager();
+
         ${{ entity_pluralized }} = $em
-          ->getRepository('{{ entity }}:{{ entity }}')->findAl();
+          ->getRepository('{{ entity }}:{{ entity }}')->findAll();
 
-
+        $list       = $this->get('rb.file')->toCsv(${{ entity_pluralized }}, $file);
 {% endblock method_body %}
 {% block method_return %}
-    $r = [
-        'infotype'=>'success',
-        'msg'=>'export ok'
-    ];
+        $r = [
+            'infotype' => 'success',
+            'msg'      => 'export ok'
+        ];
 
-    return new JsonResponse($r);
+        return new JsonResponse($r);
 {% endblock method_return %}
     }

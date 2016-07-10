@@ -2,20 +2,22 @@
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
 
-    {{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
+{{ '{% set crudEntity = "'~ bundle ~':'~ entity_singularized ~'" %}' }}
 
 {% block body %}
 {{ "{% block body %}" }}
 <form action="#" id="{{ entity_singularized }}-list" class="batch-form">
-    <table class="records_list table  table-striped table-condensed table-bordered table-sm">
+    <table class="table {{ entity_singularized }}-table">
         <thead class="thead-inverse">
             <tr>
                 <th class="td-check">
                     {{ "{{ crud_menu(crudEntity) }}" }}
                 </th>
                 {%- for field, metadata in fields %}
+
                 <th class="{{ '{% if ' ~ entity_pluralized ~ '.isSorted("p.' ~ field ~'") %} sorted{% endif %}">{{ knp_pagination_sortable('~ entity_pluralized ~', "label.' ~ field ~'" | trans, "p.' ~ field ~'") }}' }}
                 </th>{%- endfor %}
+
                 <th></th>
             </tr>
         </thead>
@@ -59,9 +61,10 @@
                 {%- endif %}
 
                 {%- if loop.last %}
-                        <td class="text-right td-actions">
-                            {{ '{{action_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}
-                        </td>
+
+                    <td class="text-right td-actions">
+                        {{ '{{action_me(' ~ entity_singularized ~ '.id, crudEntity)}}' }}
+                    </td>
                 {%- endif %}
             {%- endfor %}
 

@@ -19,19 +19,19 @@
         ${{ entity_singularized }} = new {{ entity_class }}();
         $form = $this->createForm('{{ namespace }}\Form\{{ entity_class }}Type', ${{ entity_singularized }});
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist(${{ entity_singularized }});
             $em->flush();
 
-
             {% if 'show' in actions -%}
                 $r = [
-                'infotype'=>'success',
-                    'msg'=>'ok'
-                ];
+                'infotype' => 'success',
+                'msg'      => 'ok'
+            ];
 
-                return new JsonResponse($r);
+            return new JsonResponse($r);
             {%- else -%}
                 return $this->redirectToRoute('{{ route_name_prefix }}_index'));
             {%- endif %}
@@ -40,9 +40,9 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ bundle }}:{{ entity_singularized }}:new.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity_singularized }}:new.html.twig', [
             '{{ entity_singularized }}' => ${{ entity_singularized }},
-            'form' => $form->createView(),
-        ));
+            'form'                      => $form->createView(),
+        ]);
 {% endblock method_return %}
     }

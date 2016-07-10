@@ -1,19 +1,21 @@
 {% block extends %}
 {{ "{% extends app.request.isxmlhttprequest ? '::base.html.twig' : 'AdminBundle::index.html.twig' %}" }}
 {% endblock extends %}
-    {{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
+{{ '{% set crudEntity = "'~bundle~':'~ route_name_prefix ~'" %}' }}
 {% block body %}
-    {{ '{{ form_start(form,{action:path("'~route_name_prefix~'_new"),attr:{class:"form-live"}}) }}' }}
-      {%- for field, metadata in fields %}
-            {% if field != "id" %}
-                {{ '{{ form_row(form.' ~ field ~ ',{attr:{class:"form-control"}}) }}' }}
-            {% endif %}
-        {%- endfor %}
-        <div class="form-footer">
-            <button type="submit" class="btn btn-success btn-crud-submit">{{"action.save"|trans}}</button>
-       </div>
-    {{ '{{ form_end(form) }}' }}
 
+{{ "{% block body %}" }}
+{{ '{{ form_start(form, {action:path("'~route_name_prefix~'_new"),attr:{class:"form-live"}}) }}' }}
+{%- for field, metadata in fields %}
+{% if field != "id" %}
+    {{ '{{ form_row(form.' ~ field ~ ',{attr: {class: "form-control"}} ) }}' }}
+{% endif %}
 
+{%- endfor %}
+
+    <div class="form-footer">
+        <button type="submit" class="btn btn-success btn-crud-submit">{{'{{"action.save"|trans}}'}}</button>
+    </div>
+{{ '{{ form_end(form) }}' }}
 {{ "{% endblock %}" }}
 {% endblock body %}
