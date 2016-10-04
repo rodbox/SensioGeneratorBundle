@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * @Route("/{{ controller }}")
  */
 {% endif -%}
+{% block class_definition %}
 class {{ controller }}Controller extends Controller
 {% endblock class_definition %}
 {

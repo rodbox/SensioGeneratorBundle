@@ -63,6 +63,10 @@ class {{ entity_class }}Controller extends Controller
 
 
 
+    {%- include 'crud/actions/expose.php.twig' %}
+
+
+
     {%- include 'crud/actions/batch.php.twig' %}
 
 

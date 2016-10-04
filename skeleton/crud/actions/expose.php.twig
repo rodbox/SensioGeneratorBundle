@@ -1,0 +1,43 @@
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/", name="{{ route_name_prefix }}_expose")
+     * @Method("GET")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function exposeAction(Request $request)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $em      = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+
+        $filter   = $request->query->get("filter",'all');
+
+        $entities = $em
+          ->getRepository({{ bundle }}:{{ entity }});
+
+        if ($filter == 'all')
+            $entities->findAll();
+        else {
+            $entities->findAll();
+            // construct filter sys
+        }
+
+
+        /* SERVICE : rb.serializer */
+        $list = $this->get('rb.serializer')->normalize($entities);
+        /* END SERVICE :  rb.serializer */
+
+{% endblock method_body %}
+
+{% block method_return %}
+        return new JsonResponse($list);
+{% endblock method_return %}
+    }
