@@ -18,16 +18,18 @@
         $em      = $this->getDoctrine()->getManager();
         $session = $request->getSession();
 
-        $filter   = $request->query->get("filter",'all');
+        $filter  = $request->query->get("filter",'all');
 
-        $entities = $em
-          ->getRepository({{ bundle }}:{{ entity }});
-
-        if ($filter == 'all')
-            $entities->findAll();
+        if ($filter == 'all'){
+            $entities = $em
+                ->getRepository({{ bundle }}:{{ entity }})
+                ->findAll();
+        }
         else {
-            $entities->findAll();
             // construct filter sys
+            $entities = $em
+                ->getRepository({{ bundle }}:{{ entity }})
+                ->findAll();
         }
 
 
